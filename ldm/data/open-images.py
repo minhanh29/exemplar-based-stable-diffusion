@@ -84,7 +84,8 @@ class OpenImageDataset(data.Dataset):
         ]
         self.bbox_path_list=[]
         if state == "train":
-            dir_name_list=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+            # dir_name_list=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+            dir_name_list=['0']
             for dir_name in dir_name_list:
                 bbox_dir=os.path.join(args['dataset_dir'],'bbox','train_'+dir_name)
                 per_dir_file_list=os.listdir(bbox_dir)
@@ -105,11 +106,11 @@ class OpenImageDataset(data.Dataset):
                     self.bbox_path_list.append(os.path.join(bbox_dir,file_name))
         self.bbox_path_list.sort()
         self.length=len(self.bbox_path_list)
- 
 
-       
 
-    
+
+
+
     def __getitem__(self, index):
         bbox_path=self.bbox_path_list[index]
         file_name=os.path.splitext(os.path.basename(bbox_path))[0]+'.jpg'
@@ -130,7 +131,7 @@ class OpenImageDataset(data.Dataset):
         bbox=random.choice(bbox_list)
         img_p = Image.open(img_path).convert("RGB")
 
-   
+
         ### Get reference image
         bbox_pad=copy.copy(bbox)
         bbox_pad[0]=bbox[0]-min(10,bbox[0]-0)
@@ -162,7 +163,7 @@ class OpenImageDataset(data.Dataset):
 
         prob=random.uniform(0, 1)
         if prob<self.arbitrary_mask_percent:
-            mask_img = Image.new('RGB', (W, H), (255, 255, 255)) 
+            mask_img = Image.new('RGB', (W, H), (255, 255, 255))
             bbox_mask=copy.copy(bbox)
             extended_bbox_mask=copy.copy(extended_bbox)
             top_nodes = np.asfortranarray([
@@ -218,12 +219,12 @@ class OpenImageDataset(data.Dataset):
                 image_tensor_cropped=image_tensor
                 mask_tensor_cropped=mask_tensor
             else:
-                left_pos=random.randint(left_most,right_most) 
+                left_pos=random.randint(left_most,right_most)
                 free_space=min(extended_bbox[1]-0,extended_bbox[0]-left_pos,left_pos+H-extended_bbox[2],H-extended_bbox[3])
                 random_free_space=random.randint(0,int(0.6*free_space))
                 image_tensor_cropped=image_tensor[:,0+random_free_space:H-random_free_space,left_pos+random_free_space:left_pos+H-random_free_space]
                 mask_tensor_cropped=mask_tensor[:,0+random_free_space:H-random_free_space,left_pos+random_free_space:left_pos+H-random_free_space]
-        
+
         elif  W < H:
             upper_most=extended_bbox[3]-W
             if upper_most <0:
@@ -236,7 +237,7 @@ class OpenImageDataset(data.Dataset):
                 image_tensor_cropped=image_tensor
                 mask_tensor_cropped=mask_tensor
             else:
-                upper_pos=random.randint(upper_most,lower_most) 
+                upper_pos=random.randint(upper_most,lower_most)
                 free_space=min(extended_bbox[1]-upper_pos,extended_bbox[0]-0,W-extended_bbox[2],upper_pos+W-extended_bbox[3])
                 random_free_space=random.randint(0,int(0.6*free_space))
                 image_tensor_cropped=image_tensor[:,upper_pos+random_free_space:upper_pos+W-random_free_space,random_free_space:W-random_free_space]

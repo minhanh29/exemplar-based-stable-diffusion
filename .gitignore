@@ -1,0 +1,6 @@
+models/
+results/
+checkpoints/
+dataset/
+src/
+*.ckpt
