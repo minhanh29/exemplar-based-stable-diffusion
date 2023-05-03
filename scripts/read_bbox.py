@@ -29,15 +29,18 @@ for dir_name in dir_list:
             dataset_image = cv2.imread(current_image_path)
             # print(image)
             boxes = groups.get_group(image.split('.')[0])[['XMin', 'XMax', 'YMin', 'YMax']].values.tolist()
+            labels = groups.get_group(image.split('.')[0])[['LabelName']].values.tolist()
             boxes_new=[]
-            for box in boxes:
+            for box, label in zip(boxes, labels):
+                if label[0] != "/m/0c9ph5":
+                    continue
                 if not((box[1]-box[0])*(box[3]-box[2])>0.8 or (box[1]-box[0])*(box[3]-box[2])<0.02):
                     box[0] *= int(dataset_image.shape[1])
                     box[1] *= int(dataset_image.shape[1])
                     box[2] *= int(dataset_image.shape[0])
                     box[3] *= int(dataset_image.shape[0])
                     boxes_new.append([box[0],box[1],box[2],box[3]])
-            
+
             if len(boxes_new)>0:
                 file_name = str(image.split('.')[0]) + '.txt'
                 file_path = os.path.join(label_dir, file_name)
@@ -52,3 +55,4 @@ for dir_name in dir_list:
                     print(box[0], box[2], box[1], box[3], file=f)
         except Exception as e:
             pass
+

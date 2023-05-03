@@ -156,10 +156,21 @@ class OpenImageDataset(data.Dataset):
         right_freespace=W-bbox[2]
         up_freespace=bbox[1]-0
         down_freespace=H-bbox[3]
+
+        left_freespace = max(left_freespace, 0)
+        right_freespace = max(right_freespace, 0)
+        up_freespace = max(up_freespace, 0)
+        down_freespace = max(down_freespace, 0)
+
         extended_bbox[0]=bbox[0]-random.randint(0,int(0.4*left_freespace))
         extended_bbox[1]=bbox[1]-random.randint(0,int(0.4*up_freespace))
         extended_bbox[2]=bbox[2]+random.randint(0,int(0.4*right_freespace))
         extended_bbox[3]=bbox[3]+random.randint(0,int(0.4*down_freespace))
+
+        extended_bbox[0] = max(extended_bbox[0], 0)
+        extended_bbox[1] = max(extended_bbox[1], 0)
+        extended_bbox[2] = max(extended_bbox[2], 0)
+        extended_bbox[3] = max(extended_bbox[3], 0)
 
         prob=random.uniform(0, 1)
         if prob<self.arbitrary_mask_percent:
@@ -221,6 +232,7 @@ class OpenImageDataset(data.Dataset):
             else:
                 left_pos=random.randint(left_most,right_most)
                 free_space=min(extended_bbox[1]-0,extended_bbox[0]-left_pos,left_pos+H-extended_bbox[2],H-extended_bbox[3])
+                free_space = max(free_space, 0)
                 random_free_space=random.randint(0,int(0.6*free_space))
                 image_tensor_cropped=image_tensor[:,0+random_free_space:H-random_free_space,left_pos+random_free_space:left_pos+H-random_free_space]
                 mask_tensor_cropped=mask_tensor[:,0+random_free_space:H-random_free_space,left_pos+random_free_space:left_pos+H-random_free_space]
@@ -239,6 +251,7 @@ class OpenImageDataset(data.Dataset):
             else:
                 upper_pos=random.randint(upper_most,lower_most)
                 free_space=min(extended_bbox[1]-upper_pos,extended_bbox[0]-0,W-extended_bbox[2],upper_pos+W-extended_bbox[3])
+                free_space = max(free_space, 0)
                 random_free_space=random.randint(0,int(0.6*free_space))
                 image_tensor_cropped=image_tensor[:,upper_pos+random_free_space:upper_pos+W-random_free_space,random_free_space:W-random_free_space]
                 mask_tensor_cropped=mask_tensor[:,upper_pos+random_free_space:upper_pos+W-random_free_space,random_free_space:W-random_free_space]
