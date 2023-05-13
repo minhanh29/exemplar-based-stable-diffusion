@@ -1,6 +1,6 @@
-models/
-results/
-checkpoints/
-dataset/
-src/
+Paint-by-Example/models/
+Paint-by-Example/results/
+Paint-by-Example/checkpoints/
+Paint-by-Example/dataset/
+Paint-by-Example/src/
 *.ckpt

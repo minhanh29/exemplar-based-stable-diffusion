@@ -1,7 +1,7 @@
 python scripts/inference.py \
 --plms --outdir results \
 --config configs/v1.yaml \
---ckpt models/Paint-by-Example/2023-05-02T16-14-09_v1/checkpoints/last.ckpt \
+--ckpt models/Paint-by-Example/2023-05-02T17-23-29_v1/checkpoints/last.ckpt \
 --image_path examples/image/example_1.png \
 --mask_path examples/mask/example_1.png \
 --reference_path examples/reference/flower.jpg \
