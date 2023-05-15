@@ -20,7 +20,6 @@ from ldm.models.diffusion.plms import PLMSSampler
 
 from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionSafetyChecker
 from transformers import AutoFeatureExtractor
-import clip
 from torchvision.transforms import Resize
 wm = "Paint-by-Example"
 wm_encoder = WatermarkEncoder()
@@ -142,11 +141,11 @@ def get_tensor_clip(normalize=True, toTensor=True):
     return torchvision.transforms.Compose(transform_list)
 
 
-class Inference:
+class ImageInpainting:
     def __init__(self,
                  ckpt,
                  plms=True,
-                 config_path="./configs/v1.yaml"):
+                 config_path="./Paint-by-Example/configs/v1.yaml"):
         seed_everything(321)
 
         config = OmegaConf.load(f"{config_path}")
