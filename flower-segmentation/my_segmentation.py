@@ -12,7 +12,7 @@ from utilities import reverse_transform_mask
 
 class FlowerSegmentor:
     def __init__(self, model_path):
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.model = ResNetUNet(1).to(self.device)
         self.model.load_state_dict(torch.load(model_path))

@@ -1,0 +1,10 @@
+Finetune
+FID: 2.9384
+QS Score: 50.1533
+CLIP: 70.9062
+
+
+Baseline
+FID: 2.83914
+QS Score: 49.74198
+CLIP: 71.1237

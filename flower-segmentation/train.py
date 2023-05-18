@@ -30,12 +30,12 @@ def read_imgs_and_masks(folder_path, display=False):
     Read images and their corresponding mask (optionally show two
     random image-mask pairs)
     """
-    mask_paths = glob.glob("../dataset_small/mask/*.png")
+    mask_paths = glob.glob("../../segmentation/dataset_small/mask/*.png")
     img_paths = list(map(lambda st: st.replace(".png", ".jpg").replace("mask", "jpg"), mask_paths))
 
-    mask_paths_2 = glob.glob("../dataset/train/labels/masks/*.png")
+    mask_paths_2 = glob.glob("./dataset/train/labels/masks/*.png")
     mask_paths_2.sort()
-    img_paths_2 = glob.glob("../dataset/train/data/*.jpg")
+    img_paths_2 = glob.glob("./dataset/train/data/*.jpg")
     img_paths_2.sort()
 
     mask_paths = mask_paths + mask_paths_2
@@ -244,7 +244,7 @@ if __name__ == "__main__":
     num_class = 1
 
     model = ResNetUNet(num_class).to(device)
-    ckpt = torch.load("./model/pretrained/latest_weights.pth")
+    ckpt = torch.load("./model/pretrained/best_val_weights.pth")
     model.load_state_dict(ckpt)
 
     # freeze backbone layers
@@ -253,9 +253,9 @@ if __name__ == "__main__":
     #        param.requires_grad = False
 
     # start from lr=1e-4 and then slowly decrease
-    optimizer_ft = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=1e-4, weight_decay=1e-5)
+    optimizer_ft = optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=1e-4, weight_decay=1e-5)
 
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=15, gamma=0.1)
 
     # finally train
-    model = train_model(model, optimizer_ft, exp_lr_scheduler, num_epochs=30)
+    model = train_model(model, optimizer_ft, exp_lr_scheduler, num_epochs=3)
