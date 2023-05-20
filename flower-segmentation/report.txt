@@ -1,2 +1,7 @@
 Adam
-IOU: 82464
+IOU: 0.8212
+Dice: 0.1551
+
+AdamW
+IOU: 0.8454
+Dice: 0.1493

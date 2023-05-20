@@ -14,6 +14,7 @@ import aiofiles
 from typing import List
 from my_inpainting import ImageInpainting
 from my_segmentation import FlowerSegmentor
+from dino import FlowerDetection
 
 app = FastAPI()
 origins = [ "*" ]
@@ -35,9 +36,11 @@ mask_path = os.path.join(data_dir, "mask.png")
 result_path = os.path.join(data_dir, "result.png")
 
 model = ImageInpainting("./checkpoints/my_sd_model.ckpt")
-segmentor = FlowerSegmentor("./checkpoints/segmentation.pth")
+segmentor = FlowerSegmentor("./checkpoints/segmentation_adamw.pth")
+detector = FlowerDetection()
 data_dir_2 = "../feature2/temp"
 original_path = "../feature2/temp/original.png"
+
 
 @app.get("/get_image")
 async def get_image(task_id: int, image_id: int):
@@ -57,10 +60,14 @@ async def edit_image(files: List[UploadFile] = File(...)):
             while content := await file.read(1024):  # async read file chunk
                 await out_file.write(content)  # async write file chunk
 
+    # detect flower bouding box
+    boxes = detector.detect(filepaths[0])
+    print(boxes)
+
     # extract flower mask
     print("Extracting mask...")
     img = cv2.imread(filepaths[0])
-    mask = segmentor.segment(img)
+    mask = segmentor.segment(img, boxes)
     mask = np.expand_dims(mask, axis=-1)
     mask = np.concatenate([mask]*3, axis=-1)
     cv2.imwrite(mask_path, mask)

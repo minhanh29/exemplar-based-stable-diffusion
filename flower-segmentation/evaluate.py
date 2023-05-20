@@ -1,4 +1,5 @@
 import os
+import sys
 from torchmetrics import JaccardIndex
 import glob
 from imutils import paths
@@ -16,9 +17,11 @@ from utilities import reverse_transform, reverse_transform_mask
 from preprocess import check_dir
 
 DISPLAY_PLOTS = False
-TEST_DIR = "../../segmentation/dataset_small/jpg"
-SAVE_PATH = "./test/output"
-PREFIX = "seg_"
+TEST_DIR = "./dataset/test_bench"
+if len(sys.argv) < 2:
+    print("Please provide the model path")
+    sys.exit(1)
+MODEL_PATH = sys.argv[1]
 
 trans = transforms.Compose([
     transforms.ToTensor(),
@@ -103,13 +106,11 @@ if __name__ == "__main__":
     num_class = 1
     model = ResNetUNet(num_class).to(device)
 
-    model.load_state_dict(torch.load("../checkpoints/segmentation.pth"))
+    model.load_state_dict(torch.load(MODEL_PATH))
     # model.load_state_dict(torch.load("./model/pretrained/latest_weights.pth"))
 
-    # test_img_paths = list(paths.list_images(TEST_DIR))
-    mask_paths = glob.glob("../../segmentation/dataset_small/mask/*.png")
-    mask_paths = mask_paths[:800]
-    test_img_paths = list(map(lambda st: st.replace(".png", ".jpg").replace("mask", "jpg"), mask_paths))
+    mask_paths = glob.glob(os.path.join(TEST_DIR, "mask/*.png"))
+    test_img_paths = list(map(lambda st: st.replace(".png", ".jpg").replace("mask", "images"), mask_paths))
     print(f'found {len(test_img_paths)} images')
 
     # small batch_size if you are testing on 1 or 2 images
@@ -118,8 +119,6 @@ if __name__ == "__main__":
     test_set = parseDataset(test_img_paths, mask_paths, transform=trans)
     test_loader = DataLoader(test_set, batch_size=b_size,
                              shuffle=True, num_workers=0)
-
-    check_dir(SAVE_PATH)
 
     model.eval()
     iou_score = 0
