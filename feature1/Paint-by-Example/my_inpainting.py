@@ -234,6 +234,7 @@ class ImageInpainting:
                         x_sample = 255. * rearrange(x_sample.cpu().numpy(), 'c h w -> h w c')
                         img = Image.fromarray(x_sample.astype(np.uint8))
                         img.save(result_path)
+                    del img_p, mask, ref_p
 
         print(f"Your samples are ready and waiting for you here: \n{result_path} \n")
 

@@ -40,6 +40,7 @@ class FlowerSegmentor:
         seg = self.model(img)[0]
         seg = torch.sigmoid(seg)
         seg_np = seg.cpu().detach()
+        del seg
         seg_np = reverse_transform_mask(seg_np)
         seg_np = np.where(seg_np > 220, 1, 0)
         seg_np = seg_np.astype("uint8") * 255
@@ -52,6 +53,7 @@ class FlowerSegmentor:
         seg = self.model(images)
         seg = torch.sigmoid(seg)
         seg_np = seg.cpu().detach()
+        del seg
 
         seg_np = seg_np.numpy().transpose((0, 2, 3, 1))
         seg_np = np.clip(seg_np, 0, 1)
@@ -105,18 +107,19 @@ class FlowerSegmentor:
             img = cv2.resize(img, (int(w * size / h), size))
 
         step_size = window_size // step_scale
-        batch = []
+        seg = []
         for i in range(step_scale * (scale - 1) + 1):
             start_h = i  * step_size
             end_h = start_h + window_size
+            batch = []
             for j in range(step_scale * (scale - 1) + 1):
                 start_v = j  * step_size
                 end_v = start_v + window_size
                 processed = self.preprocess(img[start_h:end_h, start_v:end_v].copy())
                 batch.append(processed.unsqueeze(0))
 
-        batch = torch.cat(batch, dim=0)
-        seg = self.segment_batch(batch)
+            batch = torch.cat(batch, dim=0)
+            seg.extend(self.segment_batch(batch))
         mask = np.zeros((size, size, 1))
         cnt = 0
         for i in range(step_scale * (scale - 1) + 1):
