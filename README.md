@@ -95,7 +95,7 @@ uvicorn api:app --port 8000
 ```
 cd feature1
 conda activate task1
-uvicorn api:app --host 0.0.0.0 --port 8080
+uvicorn api:app --port 8001
 ```
 
 ### Start the frontend
