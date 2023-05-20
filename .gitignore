@@ -147,4 +147,6 @@ dmypy.json
 feature1/flower-segmentation/model/pretrained/
 *.pth
 *build/
-feature2/checkpoints/*
+frontend/
+feature2/checkpoints/
+.DS_Store
