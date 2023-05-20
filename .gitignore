@@ -147,6 +147,13 @@ dmypy.json
 feature1/flower-segmentation/model/pretrained/
 *.pth
 *build/
+<<<<<<< HEAD
 frontend/
 feature2/checkpoints/
 .DS_Store
+||||||| 038c29d
+feature2/checkpoints/*
+=======
+feature2/checkpoints/*
+feature2/dataset/
+>>>>>>> 38f7dbdff14af435df0191fa68020e60acc12180
