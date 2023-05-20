@@ -1,9 +1,9 @@
-Paint-by-Example/models/
-Paint-by-Example/results/
-Paint-by-Example/checkpoints/
-Paint-by-Example/dataset/
-Paint-by-Example/src/
-temp/
+feature1/Paint-by-Example/models/
+feature1/Paint-by-Example/results/
+feature1/Paint-by-Example/checkpoints/
+feature1/Paint-by-Example/dataset/
+feature1/Paint-by-Example/src/
+feature1/temp/
 *.ckpt
 
 # repo specific
@@ -144,6 +144,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-flower-segmentation/model/pretrained/
+feature1/flower-segmentation/model/pretrained/
 *.pth
 *build/
+feature2/checkpoints/*
