@@ -103,11 +103,7 @@ def get_image(id: int):
 
 
 @app.get("/generate_image")
-async def generate_image():
-    # async with aiofiles.open(original_path, 'wb') as out_file:
-    #     while content := await file.read(1024):  # async read file chunk
-    #         await out_file.write(content)  # async write file chunk
-
+def generate_image():
     # extract flower mask
     flower_info = extract_flower_info(original_path)
 
