@@ -30,16 +30,11 @@ def read_imgs_and_masks(folder_path, display=False):
     Read images and their corresponding mask (optionally show two
     random image-mask pairs)
     """
-    mask_paths = glob.glob("../../segmentation/dataset_small/mask/*.png")
-    img_paths = list(map(lambda st: st.replace(".png", ".jpg").replace("mask", "jpg"), mask_paths))
+    mask_paths = glob.glob("./dataset/train/labels/masks/*.png")
+    mask_paths.sort()
+    img_paths = glob.glob("./dataset/train/data/*.jpg")
+    img_paths.sort()
 
-    mask_paths_2 = glob.glob("./dataset/train/labels/masks/*.png")
-    mask_paths_2.sort()
-    img_paths_2 = glob.glob("./dataset/train/data/*.jpg")
-    img_paths_2.sort()
-
-    mask_paths = mask_paths + mask_paths_2
-    img_paths = img_paths + img_paths_2
     if display:
         idx = np.random.randint(low=0, high=len(mask_paths), size=(2,))
         for i in idx:
@@ -244,8 +239,8 @@ if __name__ == "__main__":
     num_class = 1
 
     model = ResNetUNet(num_class).to(device)
-    ckpt = torch.load("./model/pretrained/best_val_weights.pth")
-    model.load_state_dict(ckpt)
+    # ckpt = torch.load("./model/pretrained/best_val_weights.pth")
+    # model.load_state_dict(ckpt)
 
     # freeze backbone layers
     # for l in model.base_layers:

@@ -148,3 +148,4 @@ feature1/flower-segmentation/model/pretrained/
 *.pth
 *build/
 feature2/checkpoints/*
+feature2/dataset/

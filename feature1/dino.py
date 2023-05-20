@@ -102,7 +102,3 @@ class FlowerDetection:
 if __name__ == "__main__":
     detector = FlowerDetection()
     detector.detect("./temp/original.png", save_path="./my_dino.png")
-# print(image_source.shape)
-# annotated_frame = annotate(image_source=image_source, boxes=boxes, logits=logits, phrases=phrases)
-# annotated_frame = annotated_frame[...,::-1] # BGR to RGB
-# Image.fromarray(annotated_frame).save("my_dino.png")

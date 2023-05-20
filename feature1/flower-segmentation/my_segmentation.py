@@ -63,10 +63,10 @@ class FlowerSegmentor:
     def segment(self, img, boxes=[]):
         h, w = img.shape[:2]
         if len(boxes) == 0:
-            seg = self._segment(img, dilate=True)
+            mask = self._segment(img, dilate=True)
             mask = cv2.dilate(mask, np.ones((5, 5)))
-            seg = cv2.resize(seg, (w, h))
-            return seg
+            mask = cv2.resize(mask, (w, h))
+            return mask
 
         mask = np.zeros((h, w), dtype="uint8")
         for x1, y1, x2, y2 in boxes:
@@ -137,8 +137,8 @@ if __name__ == "__main__":
     # segmentor = FlowerSegmentor("./model/pretrained/latest_weights.pth")
     # img = cv2.imread("../dataset/test/data/0036f0f759621064.jpg")
     # img = cv2.imread("./test/yellow_rose.jpg")
-    # img = cv2.imread("./test/roses.jpg")
-    img = cv2.imread("../temp/original.png")
+    img = cv2.imread("./test/roses.jpg")
+    # img = cv2.imread("../temp/original.png")
     # img = cv2.imread("./test/two.jpg")
     # img = cv2.imread("./test/pink.jpg")
     # seg_np = segmentor.segment(img, boxes=[[0, 3, 546, 276], [106, 8, 186, 66], [341, 3, 423, 63], [373, 22, 466, 87], [179, 24, 265, 89], [428, 184, 524, 271], [467, 103, 546, 172], [460, 79, 543, 133]])
