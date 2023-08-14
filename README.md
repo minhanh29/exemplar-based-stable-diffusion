@@ -224,3 +224,23 @@ python generate_images.py
 ```
 python clip_score.py
 ```
+
+## Citations
+UNet Implementation of [gvil-research](https://github.com/gvil-research/leaf-segmentation-unet)
+Vicuna from [FastChat](https://github.com/lm-sys/FastChat)
+GIT from [Microsoft](https://huggingface.co/microsoft/git-large-textvqa)
+
+```
+@article{yang2022paint,
+  title={Paint by Example: Exemplar-based Image Editing with Diffusion Models},
+  author={Binxin Yang and Shuyang Gu and Bo Zhang and Ting Zhang and Xuejin Chen and Xiaoyan Sun and Dong Chen and Fang Wen},
+  journal={arXiv preprint arXiv:2211.13227},
+  year={2022}
+}
+@article{liu2023grounding,
+  title={Grounding dino: Marrying dino with grounded pre-training for open-set object detection},
+  author={Liu, Shilong and Zeng, Zhaoyang and Ren, Tianhe and Li, Feng and Zhang, Hao and Yang, Jie and Li, Chunyuan and Yang, Jianwei and Su, Hang and Zhu, Jun and others},
+  journal={arXiv preprint arXiv:2303.05499},
+  year={2023}
+}
+```
