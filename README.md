@@ -21,7 +21,7 @@ cd feature1/Paint-by-Example
 2. Create a virtual environment and install dependencies
 ```
 conda env create -f environment.yaml
-conda activate task2
+conda activate task1
 ```
 
 3. Download the weights for the image editing model [here](https://mlrmit.blob.core.windows.net/models/my_sd_model.ckpt) and the segmentation model [here](https://mlrmit.blob.core.windows.net/models/segmentation_adamw.pth) and put all of them under the **feature1/checkpoints** folder. 
@@ -37,7 +37,7 @@ project
 
 4. Install the GroundDINO library (For flower detection)
 ```
-cd feature1/GroundingDINO
+cd feature1
 python -m pip install -e GroundingDINO
 ```
 
